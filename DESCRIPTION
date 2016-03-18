@@ -1,0 +1,12 @@
+Package: circplot
+Type: Package
+Title: Draw graphical elements in circular way
+Version: 0.1
+Date: 2016-03-18
+Author: Mark Heckmann
+Maintainer: Maintainer: Mark Heckmann <heckmann.mark@gmail.com>
+Description: Draws several graphical elements in circular way
+License: GPL (>= 3.0)
+VignetteBuilder: knitr
+Imports: pracma, plotrix, scales
+
