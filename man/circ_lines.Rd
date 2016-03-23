@@ -4,9 +4,21 @@
 \alias{circ_lines}
 \title{Draw lines}
 \usage{
-circ_lines(x0, y0, x1 = x0, y1 = y0, ...)
+circ_lines(x0, y0 = 0.5, x1 = x0, y1 = y0, increasing = TRUE, ...)
 }
 \description{
 Draw lines
+}
+\examples{
+circ_plot()
+circ_par_init()
+ring_set(1)
+circ_lines(0,.5, .2, lwd=2)
+ring_set(2)
+circ_lines(1,.5, .2, lwd=2)
+
+# lines are drawn using increasing x values by default.
+ring_set(3)
+circ_lines(1,.5, .2, increasing=FALSE, lwd=2)
 }
 

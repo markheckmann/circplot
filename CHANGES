@@ -1,4 +1,8 @@
 #### DOCU OF PACKAGE ####
 
+### TODO
+* maybe the problem that existing in boxplots with drawing from e.g. .9 to .1 went along the wrong direction is still present in some functions. It has been fixed for circ_lines and circ_rect
+* circ_par()$x.to should not messed with and made read only
+
 ### CHANGES (0.1)
 * add several functions

@@ -65,7 +65,9 @@ vec_angle <- function(a, b, rad=TRUE, mode=1)
   # anti-clockwise radian with respect to vector b
   if (mode == 2) {
     #r = atan2(a[1]*b[2] - b[1]*a[2], a[1]*b[1] + a[2]*b[2])
-    r = atan2(b[1]*a[2] - a[1]*b[2], b[1]*a[1] + b[2]*a[2])
+    f = as.numeric(b[1]*a[2] - a[1]*b[2])  # placeholder and conversion if dataframe
+    g = as.numeric(b[1]*a[1] + b[2]*a[2])
+    r = atan2(f, g)
     
     #     r = (-180/pi * ang) %% 360     # restrict to 0 to 260 range     
     #     r = r * pi /180                # convert to radians
@@ -78,6 +80,22 @@ vec_angle <- function(a, b, rad=TRUE, mode=1)
 }
 
 
+# x values to radians  
+rescale_x_rad <- function(x)
+{
+  to <- circ_par()$x.to
+  from <- circ_par()$x.from
+  scales::rescale(x, to=to, from=from)   
+}
+
+
+# x values from radians to original range
+rescale_rad_x <- function(x)
+{
+  to <- circ_par()$x.to
+  from <- circ_par()$x.from
+  scales::rescale(x, to=from, from=to)   # x values to radians  
+}
 
 #' Angles / radian between two or more vectors.
 #' 
@@ -107,3 +125,14 @@ vec_angles <- function(a, b, rad=TRUE, mode=1)
   })
 }
 
+
+# Calculate circular deviation from given point
+# Values are organized around reference value so they are never bigger than 2pi
+# x: radians
+# ref: reference radian around which the data is organized
+#
+circ_deviations <- function(x, ref=0)
+{
+  dev <- x - ref
+  ifelse(dev <= pi, x, x - 2*pi)
+}

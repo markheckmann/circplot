@@ -121,9 +121,15 @@ circ_plot <- function(xlim=NULL, ylim=NULL, ...)
 #' Draw lines
 #' 
 #' @export
+#' @example examples/example-lines.R
 #' 
-circ_lines <- function(x0, y0, x1 = x0, y1 = y0, ...)
+circ_lines <- function(x0, y0=.5, x1 = x0, y1 = y0, increasing=TRUE, ...)
 {
+  if (increasing & x0 > x1) {
+    mx <- circ_par()$x.from[2]
+    x0 <- x0 - mx
+  }
+
   n.seg <- circ_par()$n.seg
   x <- seq(x0, x1, length = n.seg)
   y <- seq(y0, y1, length = n.seg)
@@ -146,9 +152,15 @@ circ_polygon <- function(x, y, ...)
 #' Draw rectangle
 #' 
 #' @export
+#' @example examples/example-rect.R
 #' 
-circ_rect <- function(xleft, ybottom, xright, ytop, ...)
+circ_rect <- function(xleft, ybottom, xright, ytop, increasing=TRUE, ...)
 {
+  if (increasing & xleft > xright) {
+    mx <- circ_par()$x.from[2]
+    xleft <- xleft - mx
+  }
+    
   xx_lr <- seq(xleft, xright, length=100)
   yy <- rep(c(ybottom, ytop), each=100)
   
@@ -156,16 +168,72 @@ circ_rect <- function(xleft, ybottom, xright, ytop, ...)
   circ_polygon(xx, yy, ...)
 }
 
+ 
+# circ_boxplot_old <- function(x, label=NA, height=1, cex=.7, col=grey(.95), ...)
+# {   
+#   #c <- circular::circular(x)
+#   #f <- circular::quantile.circular(c, probs = c(0, .25, .5, .75, 1))
+#   
+#   f <- fivenum(x)
+#   lo <- (1 - height) / 2
+#   hi <- lo + height
+#   
+#   circ_rect(f[2], lo, f[4], hi, col=col, ...)
+#   circ_lines(f[1], .5, f[2], .5)
+#   circ_lines(f[4], .5, f[5], .5)
+#   circ_lines(f[3], lo, f[3], hi, lwd=2)
+#   circ_lines(f[1], lo, f[1], hi)
+#   circ_lines(f[5], lo, f[5], hi)
+#   
+#   if (!is.na(label)) {
+#     offset <- diff(circ_par()$x.from) / 150
+#     y <- diff(circ_par()$y.from) / 2
+#     circ_text(label, f[1] - offset, y, xadj=0, cex=cex)    
+#   }
+# }
+
+
+#' Calculate quantiles from circular data.
+#' 
+#' Functions calculates quantiles using the \code{quantile} function
+#' from the \code{circular} package.
+#' 
+#' @param x Original data.
+#' @inheritParams stats::quantile
+#' 
+circ_quantiles <- function(x, probs=seq(0,1,.25))
+{
+  rad <- rescale_x_rad(x)             # x values to radians
+  c <- circular::circular(rad)        # convert into circular object
+  qc <- circular::quantile.circular(c, probs=probs)   # find circular quantiles
+  qc <- as.numeric(qc)
+  c <- circ_deviations(qc, qc[3])     # make sure values smaller than median are not bigger than median
+  f <- rescale_rad_x(c)               # get original values
+  f
+}
+
 
 #' Draw boxplot
 #' 
-#' @export
+#' Functions calculates medians using the \code{quantile} function
+#' from the \code{circular} package.
 #' 
-circ_boxplot <- function(x, label=NA, height=1, cex=.7, col=grey(.95), ...)
+#' @param x Data from original range.
+#' @param label A label next to the outer whisker.
+#' @param height The height within a ring.
+#' @param col Filling of box.
+#' @param ... Passed on to \code{\link{polygon}}.
+#' @inheritParams graphics::text 
+#' @export
+#' @example examples/examples-boxplot.R
+#' 
+circ_boxplot <- function(x, label=NA, height=1, cex=.7, col=grey(.95), 
+                          probs=seq(0, 1, 0.25), ...)
 {   
-  f <- fivenum(x)
   lo <- (1 - height) / 2
   hi <- lo + height
+  
+  f <- circ_quantiles(x, probs=probs)   # get circular quantiles
   
   circ_rect(f[2], lo, f[4], hi, col=col, ...)
   circ_lines(f[1], .5, f[2], .5)
@@ -180,6 +248,7 @@ circ_boxplot <- function(x, label=NA, height=1, cex=.7, col=grey(.95), ...)
     circ_text(label, f[1] - offset, y, xadj=0, cex=cex)    
   }
 }
+
 
 
 #' Draw density plot
