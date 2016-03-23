@@ -29,7 +29,8 @@ library(circplot)
 
 The goal of the paclage is similar to the features in the `circlize` package. To display plots from a cartesian system in circular form. To explain the idea, consider the following data showing the average mood values per week for two persons across 100 days.
 
-```{r echo=FALSE}
+```{r}
+# random data
 set.seed(0)
 n <- 50
 m <- data.frame(a = rnorm(n, 200, 30),

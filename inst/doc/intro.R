@@ -11,7 +11,8 @@ knitr::opts_chunk$set(
 ## ----setup, warning=FALSE, message=FALSE---------------------------------
 library(circplot)
 
-## ----echo=FALSE----------------------------------------------------------
+## ------------------------------------------------------------------------
+# random data
 set.seed(0)
 n <- 50
 m <- data.frame(a = rnorm(n, 200, 30),
