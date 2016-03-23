@@ -2,12 +2,19 @@
 % Please edit documentation in R/plot.R
 \name{circ_quantiles}
 \alias{circ_quantiles}
-\title{Calculate \code{\link{fivenum}} avlues for boxplots from circular data.}
+\title{Calculate quantiles from circular data.}
 \usage{
 circ_quantiles(x, probs = seq(0, 1, 0.25))
 }
+\arguments{
+\item{x}{Original data.}
+
+\item{probs}{numeric vector of probabilities with values in
+    \eqn{[0,1]}.  (Values up to \samp{2e-14} outside that
+    range are accepted and moved to the nearby endpoint.)}
+}
 \description{
-Functions calculates medians using the \code{quantile} function
+Functions calculates quantiles using the \code{quantile} function
 from the \code{circular} package.
 }
 

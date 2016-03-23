@@ -7,6 +7,21 @@
 circ_boxplot(x, label = NA, height = 1, cex = 0.7, col = grey(0.95),
   probs = seq(0, 1, 0.25), ...)
 }
+\arguments{
+\item{x}{Data from original range.}
+
+\item{label}{A label next to the outer whisker.}
+
+\item{height}{The height within a ring.}
+
+\item{cex}{numeric \bold{c}haracter \bold{ex}pansion factor; multiplied
+    by \code{\link{par}("cex")} yields the final character size.
+    \code{NULL} and \code{NA} are equivalent to \code{1.0}.}
+
+\item{col}{Filling of box.}
+
+\item{...}{Passed on to \code{\link{polygon}}.}
+}
 \description{
 Functions calculates medians using the \code{quantile} function
 from the \code{circular} package.
