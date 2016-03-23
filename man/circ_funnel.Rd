@@ -2,32 +2,24 @@
 % Please edit documentation in R/plot.R
 \name{circ_funnel}
 \alias{circ_funnel}
-\title{#Draw points
-#
-#}
+\title{Draw funnel over range of points}
 \usage{
-circ_funnel(x, r = NULL, outer = TRUE, ...)
+circ_funnel(x, r = NULL, outer = TRUE, increasing = TRUE, probs = c(0,
+  1), ...)
 }
 \arguments{
-\item{x}{Original data.
-#}
-
-\item{r}{Radius for plot (optional).
-#
-Draw funnel over range of points}
-
-\item{outer}{Use outer radius for drawing? (default \code{TRUE}).}
-
 \item{x}{Original data.}
-
-\item{y}{Choose where the edge of the funnel is (scaled to \code{[0,1]}).}
 
 \item{r}{Radius for plot (optional). If not set the max of \code{circ_par("y.to")}
 is used as radius.}
+
+\item{outer}{Use outer radius for drawing? (default \code{TRUE}).}
+
+\item{increasing}{Draw from low to high x values.}
+
+\item{y}{Choose where the edge of the funnel is (scaled to \code{[0,1]}).}
 }
 \description{
-#Draw points
-#
-#
+Draw funnel over range of points
 }
 

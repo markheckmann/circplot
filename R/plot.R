@@ -120,6 +120,9 @@ circ_plot <- function(xlim=NULL, ylim=NULL, ...)
 
 #' Draw lines
 #' 
+#' @inheritParams graphics::lines
+#' @param increasing Draw from low to high x values.
+#' @param ... Passed on to \code{\link{lines}}.
 #' @export
 #' @example examples/example-lines.R
 #' 
@@ -151,6 +154,10 @@ circ_polygon <- function(x, y, ...)
 
 #' Draw rectangle
 #' 
+#' @param increasing Draw from low to high x values.
+#' @param ... Passed on to \code{\link{rect}}.
+#' @inheritParams graphics::rect
+#' 
 #' @export
 #' @example examples/example-rect.R
 #' 
@@ -169,29 +176,6 @@ circ_rect <- function(xleft, ybottom, xright, ytop, increasing=TRUE, ...)
 }
 
  
-# circ_boxplot_old <- function(x, label=NA, height=1, cex=.7, col=grey(.95), ...)
-# {   
-#   #c <- circular::circular(x)
-#   #f <- circular::quantile.circular(c, probs = c(0, .25, .5, .75, 1))
-#   
-#   f <- fivenum(x)
-#   lo <- (1 - height) / 2
-#   hi <- lo + height
-#   
-#   circ_rect(f[2], lo, f[4], hi, col=col, ...)
-#   circ_lines(f[1], .5, f[2], .5)
-#   circ_lines(f[4], .5, f[5], .5)
-#   circ_lines(f[3], lo, f[3], hi, lwd=2)
-#   circ_lines(f[1], lo, f[1], hi)
-#   circ_lines(f[5], lo, f[5], hi)
-#   
-#   if (!is.na(label)) {
-#     offset <- diff(circ_par()$x.from) / 150
-#     y <- diff(circ_par()$y.from) / 2
-#     circ_text(label, f[1] - offset, y, xadj=0, cex=cex)    
-#   }
-# }
-
 
 #' Calculate quantiles from circular data.
 #' 
@@ -207,7 +191,9 @@ circ_quantiles <- function(x, probs=seq(0,1,.25))
   c <- circular::circular(rad)        # convert into circular object
   qc <- circular::quantile.circular(c, probs=probs)   # find circular quantiles
   qc <- as.numeric(qc)
-  c <- circ_deviations(qc, qc[3])     # make sure values smaller than median are not bigger than median
+  med <- circular::median.circular(c) # use median instead of qc[3] to allow formore general uses
+  med <- as.numeric(med)
+  c <- circ_deviations(qc, med)       # make sure values smaller than median are not bigger than median
   f <- rescale_rad_x(c)               # get original values
   f
 }
@@ -316,11 +302,10 @@ circ_points <- function(x, y, ...)
 }
 
 
-# #' Draw points
-# #' 
-# #' @param x Original data.
-# #' @param r Radius for plot (optional).
-# #' 
+# Draw points
+# 
+# @param x Original data.
+# @param r Radius for plot (optional).
 # circ_funnel <- function(x, r=NULL, ...)
 # {
 #   # temporarily replace y.to
@@ -349,13 +334,14 @@ circ_points <- function(x, y, ...)
 #' @param r Radius for plot (optional). If not set the max of \code{circ_par("y.to")} 
 #'  is used as radius.
 #' @param outer Use outer radius for drawing? (default \code{TRUE}).
-#' 
+#' @param increasing Draw from low to high x values.
 #' @export
 #' 
-circ_funnel <- function(x, r=NULL, outer=TRUE, ...)
+circ_funnel <- function(x, r=NULL, outer=TRUE, increasing=TRUE, 
+                        probs=c(0,1), ...)
 {
   old <- circ_par()   # save old pars
-  
+
   # inner or outer radius used as edge?
   if (outer) {
     f <- max
@@ -372,14 +358,24 @@ circ_funnel <- function(x, r=NULL, outer=TRUE, ...)
   # and output range
   circ_par(y.from = c(0, 1),  
            y.to = c(0, r))    
-
-  rng <- range(x)  
-  circ_rect(rng[1], 0, rng[2], 1, ...)
+  
+  qq <- circ_quantiles(x, probs=probs)
+  start <- qq[1]
+  end <- qq[2]
+  
+  if (increasing & start > end) {
+    mx <- circ_par()$x.from[2]
+    start <- start - mx
+  }
+  
+  circ_rect(start, 0, end, 1, ...)
   circ_par(old)    
 }
 
 
-#### Dev ####
+
+
+#### +--------- Rings --------- ####
 
 # n rings are specfied by n + 1 radi. Two succesive values specify the 
 # radi of the ring. The values can be decreasing or increasing. The rings are 
