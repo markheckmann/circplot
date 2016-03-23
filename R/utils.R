@@ -18,6 +18,7 @@ as.degree <- function (rad)
 #' Draw a circle
 #' 
 #' Wrapper for \code{\link{plotrix::draw.circle}}
+#' @export
 #' 
 draw_circle <- function(...)
 {

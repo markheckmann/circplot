@@ -6,6 +6,7 @@
 #' @examples
 #' circ_par()
 #' circ_par(x.from = c(0,1))   # change input range from 0 to 1
+#' @export
 #' 
 circ_par <- function(...)
 {
@@ -49,6 +50,7 @@ circ_par <- function(...)
 #'   \item rings Border radi of rings (defaults is three rings \code{c(1.0, 1.1, 1.2, 1.3)})
 #' }
 #' 
+#' @export
 circ_par_init <- function()
 {
   l <- list()
@@ -98,6 +100,7 @@ circ_convert <- function(x, y, to.cart=TRUE)
 #' This is just a convenient wrapper for \code{plot} for pure convencience and 
 #' quick results.
 #' 
+#' @export
 circ_plot <- function(xlim=NULL, ylim=NULL, ...)
 {
   par(mar=rep(2, 4))
@@ -117,6 +120,8 @@ circ_plot <- function(xlim=NULL, ylim=NULL, ...)
 
 #' Draw lines
 #' 
+#' @export
+#' 
 circ_lines <- function(x0, y0, x1 = x0, y1 = y0, ...)
 {
   n.seg <- circ_par()$n.seg
@@ -129,6 +134,8 @@ circ_lines <- function(x0, y0, x1 = x0, y1 = y0, ...)
 
 #' Draw polygon
 #' 
+#' @export
+#' 
 circ_polygon <- function(x, y, ...)
 {
   c <- circ_convert(x, y)
@@ -137,6 +144,8 @@ circ_polygon <- function(x, y, ...)
 
 
 #' Draw rectangle
+#' 
+#' @export
 #' 
 circ_rect <- function(xleft, ybottom, xright, ytop, ...)
 {
@@ -149,6 +158,8 @@ circ_rect <- function(xleft, ybottom, xright, ytop, ...)
 
 
 #' Draw boxplot
+#' 
+#' @export
 #' 
 circ_boxplot <- function(x, label=NA, height=1, cex=.7, col=grey(.95), ...)
 {   
@@ -172,6 +183,8 @@ circ_boxplot <- function(x, label=NA, height=1, cex=.7, col=grey(.95), ...)
 
 
 #' Draw density plot
+#' 
+#' @export
 #' 
 circ_density <- function(x, ...) 
 {
@@ -204,6 +217,8 @@ circ_density <- function(x, ...)
 #' @param xadj x adjustement. One of \code{c(0, .5, 1)}.
 #' @param ... passed to \code{plotrix::arctext}.
 #' 
+#' @export
+#' 
 circ_text <- function(label, x, y,  xadj=.5, ...)
 {
   p <- circ_convert(x, y, to.cart=FALSE)
@@ -222,6 +237,8 @@ circ_text <- function(label, x, y,  xadj=.5, ...)
 
 
 #' Draw points
+#' 
+#' @export
 #' 
 circ_points <- function(x, y, ...)
 {
@@ -264,6 +281,8 @@ circ_points <- function(x, y, ...)
 #'  is used as radius.
 #' @param outer Use outer radius for drawing? (default \code{TRUE}).
 #' 
+#' @export
+#' 
 circ_funnel <- function(x, r=NULL, outer=TRUE, ...)
 {
   old <- circ_par()   # save old pars
@@ -291,9 +310,6 @@ circ_funnel <- function(x, r=NULL, outer=TRUE, ...)
 }
 
 
-
-
-
 #### Dev ####
 
 # n rings are specfied by n + 1 radi. Two succesive values specify the 
@@ -319,6 +335,8 @@ ring_get <- function(index=1)
 
 #' Set active ring
 #' 
+#' @export
+#' 
 ring_set <- function(index=1)
 {
   r <- ring_get(index)
@@ -338,7 +356,9 @@ rings_n <- function()
 
 
 #' Show one or all rings
-#'
+#' 
+#' @export
+#' 
 ring_show <- function(index=NULL, ...)
 {
   if (is.null(index))
