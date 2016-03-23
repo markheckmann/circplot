@@ -242,5 +242,25 @@ ring_set(5)
 circ_boxplot(m$e, "GROUP E", height=.8)
 ```
 
+## Misc
+
+Functions not directly connected to the rings but useful in the context of circular plots. 
+
+
+### Auto rotated text
+
+Draw text with correct angle so it can be easily regarded.
+
+```{r}
+circ_plot()
+
+phis <- seq(0, 2*pi, by=.4)
+for (phi in phis) {
+  v <- c(cos(phi), sin(phi))
+  text_rot(v * 1.1, label=phi)
+}
+```
+
+
 
 

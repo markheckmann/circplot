@@ -175,3 +175,12 @@ circ_boxplot(m$d, "GROUP D", height=.8)
 ring_set(5)
 circ_boxplot(m$e, "GROUP E", height=.8)
 
+## ------------------------------------------------------------------------
+circ_plot()
+
+phis <- seq(0, 2*pi, by=.4)
+for (phi in phis) {
+  v <- c(cos(phi), sin(phi))
+  text_rot(v * 1.1, label=phi)
+}
+
