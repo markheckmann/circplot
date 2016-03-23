@@ -6,6 +6,11 @@
 \usage{
 circ_lines(x0, y0 = 0.5, x1 = x0, y1 = y0, increasing = TRUE, ...)
 }
+\arguments{
+\item{increasing}{Draw from low to high x values.}
+
+\item{...}{Passed on to \code{\link{lines}}.}
+}
 \description{
 Draw lines
 }
